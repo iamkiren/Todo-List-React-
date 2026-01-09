@@ -28,6 +28,14 @@ function Todo() {
     setTodoList(toggledTodoList);
   }
 
+  function deleteTodo(deleteId) {
+    const afterDeletion = todoList.filter((todo) => {
+      return todo.id !== deleteId;
+    });
+
+    setTodoList(afterDeletion);
+  }
+
   return (
     <div>
       <h1>Todo</h1>
@@ -51,7 +59,7 @@ function Todo() {
               <span className={todo.completed ? styles.strike : ""}>
                 {todo.text}
               </span>
-              <button>Delete</button>
+              <button onClick={() => deleteTodo(todo.id)}>Delete</button>
             </li>
           );
         })}
