@@ -1,11 +1,33 @@
 import React from "react";
+import styles from "./Todo.module.css";
 
 function Todo() {
   const [input, setInput] = React.useState("");
-  const [todoList, setTodoList] = React.useState([
-    { id: 1, text: "Make Tea", completed: true },
-    { id: 2, text: "Morning Walk", completed: false },
-  ]);
+  const [todoList, setTodoList] = React.useState([]);
+
+  function handleTodo() {
+    const newTodo = {
+      id: Math.random(),
+      text: input,
+      completed: false,
+    };
+    const newList = [...todoList, newTodo];
+    setTodoList(newList);
+    setInput("");
+  }
+
+  function toggleTodo(toggleId) {
+    const toggledTodoList = todoList.map((todo) => {
+      if (todo.id === toggleId) {
+        return { ...todo, completed: !todo.completed };
+      } else {
+        return todo;
+      }
+    });
+
+    setTodoList(toggledTodoList);
+  }
+
   return (
     <div>
       <h1>Todo</h1>
@@ -15,14 +37,20 @@ function Todo() {
         value={input}
         onChange={(e) => setInput(e.target.value)}
       />
-      <button>Add</button>
+      <button onClick={() => handleTodo()}>Add</button>
 
       <ul>
         {todoList.map((todo) => {
           return (
-            <li>
-              <input type="checkbox" />
-              <span>{todo.text}</span>
+            <li key={todo.id}>
+              <input
+                type="checkbox"
+                checked={todo.completed}
+                onChange={() => toggleTodo(todo.id)}
+              />
+              <span className={todo.completed ? styles.strike : ""}>
+                {todo.text}
+              </span>
               <button>Delete</button>
             </li>
           );
