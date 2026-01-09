@@ -6,9 +6,10 @@ function Todo() {
   const [todoList, setTodoList] = React.useState([]);
 
   function handleTodo() {
+    if (input.trim() === "") return;
     const newTodo = {
       id: Math.random(),
-      text: input,
+      text: input.trim(),
       completed: false,
     };
     const newList = [...todoList, newTodo];
