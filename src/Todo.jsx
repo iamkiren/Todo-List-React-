@@ -38,33 +38,51 @@ function Todo() {
   }
 
   return (
-    <div>
-      <h1>Todo</h1>
-      <input
-        type="text"
-        placeholder="Enter Todo"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-      />
-      <button onClick={() => handleTodo()}>Add</button>
-
-      <ul>
-        {todoList.map((todo) => {
-          return (
-            <li key={todo.id}>
-              <input
-                type="checkbox"
-                checked={todo.completed}
-                onChange={() => toggleTodo(todo.id)}
-              />
-              <span className={todo.completed ? styles.strike : ""}>
-                {todo.text}
-              </span>
-              <button onClick={() => deleteTodo(todo.id)}>Delete</button>
-            </li>
-          );
-        })}
-      </ul>
+    <div className={styles.container}>
+      <h1 className={styles.title}>Todo</h1>
+      <div className={styles.inputContainer}>
+        <input
+          className={styles.input}
+          type="text"
+          placeholder="Enter Todo"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+        />
+        <button className={styles.addButton} onClick={() => handleTodo()}>
+          Add
+        </button>
+      </div>
+      {todoList.length === 0 ? (
+        <p className={styles.emptyMessage}>No todos yet. Add one above!</p>
+      ) : (
+        <ul className={styles.todoList}>
+          {todoList.map((todo) => {
+            return (
+              <li key={todo.id} className={styles.todoItem}>
+                <input
+                  className={styles.checkbox}
+                  type="checkbox"
+                  checked={todo.completed}
+                  onChange={() => toggleTodo(todo.id)}
+                />
+                <span
+                  className={`${styles.todoText} ${
+                    todo.completed ? styles.strike : ""
+                  }`}
+                >
+                  {todo.text}
+                </span>
+                <button
+                  className={styles.deleteButton}
+                  onClick={() => deleteTodo(todo.id)}
+                >
+                  Delete
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </div>
   );
 }
